@@ -21,6 +21,8 @@ const navBar = document.querySelector(".navbar__menu");
 const navBarUl = navBar.querySelector("ul")
 const navBarList = document.querySelector("#navbar__list");
 const allSections = document.querySelectorAll("section");
+
+console.log(allSections)
 /**
  * End Global Variables
  * Start Helper Functions
@@ -29,12 +31,12 @@ const allSections = document.querySelectorAll("section");
 //Function to get the ID for a section
 const getId = (section) => {
     let text = section.querySelector("h2").textContent;
-    let finalID = text.replace(" ", "_");
+    let finalID = text.replace(/ /g, "_");
     return finalID;
 }
 //Function to get the ID of a section
 const transID = (txt) => {
-    let tid = txt.replace(" ", "_");
+    let tid = txt.replace(/ /g, "_");
     let string = `#${tid}`;
     return string;
 }
