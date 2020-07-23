@@ -19,14 +19,16 @@
 */
 const mainHeader = document.querySelector(".main__hero");
 const navBar = document.querySelector(".navbar__menu");
-const navBarMenu = document.querySelector(".navbar__menu");
+const navBarUl = navBar.querySelector("ul")
+const navText = navBarUl.querySelectorAll("h3")
 const navBarList = document.querySelector("#navbar__list");
 
-const oneDesc = document.getElementById("section1").querySelector("h2").textContent;
-const twoDesc = document.getElementById('section2').querySelector("h2").textContent;
-const threeDesc = document.getElementById('section3').querySelector("h2").textContent;
+const getId = (section) => {
+    let text = section.querySelector("h2").textContent;
+    let finalID = text.replace(" ", "_");
+    return finalID;
+} 
 
-let sectDescriptions = ["Top"]
 
 /**
  * End Global Variables
@@ -43,34 +45,42 @@ let sectDescriptions = ["Top"]
 */
 
 // build the nav
+const allSections = document.querySelectorAll("section");
 
-//Step 1: Add section descriptions to an array
-const addDescriptions = (oneDesc, twoDesc, threeDesc) => {
-    sectDescriptions.push(oneDesc);
-    sectDescriptions.push(twoDesc);
-    sectDescriptions.push(threeDesc);
-    return sectDescriptions;
+const addSectionItem = (section) => {
+    let text = section.querySelector("h2").textContent
+    let iD = getId(section);
+    console.log(iD);
+    navBarList.insertAdjacentHTML("beforeend", `<li ><a id="${iD}" href=${section.id}><h3>${text}</h3></a></li>`)
 }
-console.log(addDescriptions(oneDesc, twoDesc, threeDesc));
-//Step 2: Add a list item with for every section including "Top", add a a description for each list item
+allSections.forEach(addSectionItem)
 
-const addListItem = (sectDescriptions) => {
-    for (item of sectDescriptions) {
-        let li = document.createElement("li");
-        let liText = document.createElement("h3");
-        liText.textContent = item;
-        li.appendChild(liText);
-        navBarList.insertAdjacentElement("beforeend", li);
-    }
-}
-addListItem(sectDescriptions);
+
 
 
 // Add class 'active' to section when near top of viewport
 
+const inView = (section) => {
+    window.addEventListener("scroll", function(){
+        let bounding = section.getBoundingClientRect();
+        if (bounding.bottom >= 700 && bounding.bottom <= 1050) {
+            section.classList.add("your-active-class");
+            let nID = `#${getId(section)}`;
+            let editingID = document.querySelector(nID);
+            editingID.style.setProperty("color", "green");
+        } else {
+            section.classList.remove("your-active-class");
+            let nID = `#${getId(section)}`;
+            let editingID = document.querySelector(nID);
+            editingID.style.setProperty("color", "black");
+        }
+    })};
+
+allSections.forEach(inView)
+
+
 
 // Scroll to anchor ID using scrollTO event
-
 
 /**
  * End Main Functions
@@ -83,3 +93,4 @@ addListItem(sectDescriptions);
 // Scroll to section on link click
 
 // Set sections as active
+
