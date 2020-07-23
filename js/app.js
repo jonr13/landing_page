@@ -23,6 +23,10 @@ const navBarUl = navBar.querySelector("ul")
 const navText = navBarUl.querySelectorAll("h3")
 const navBarList = document.querySelector("#navbar__list");
 
+//Necessary Lists
+const getLinks = document.querySelectorAll("a");
+const allSections = document.querySelectorAll("section");
+
 const getId = (section) => {
     let text = section.querySelector("h2").textContent;
     let finalID = text.replace(" ", "_");
@@ -78,9 +82,13 @@ const inView = (section) => {
 
 allSections.forEach(inView)
 
-
+const scrollFunc = (link) => {
+    link.addEventListener("click", function(){
+        link.preventDefault();
+        document.getElementById(link.getAttribute("href").scrollIntoView())})}
 
 // Scroll to anchor ID using scrollTO event
+getLinks.forEach(scrollFunc)
 
 /**
  * End Main Functions
