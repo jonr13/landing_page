@@ -17,57 +17,38 @@
  * Define Global Variables
  * 
 */
-const mainHeader = document.querySelector(".main__hero");
 const navBar = document.querySelector(".navbar__menu");
 const navBarUl = navBar.querySelector("ul")
-const navText = navBarUl.querySelectorAll("h3")
 const navBarList = document.querySelector("#navbar__list");
-
-//Necessary Lists
-const getLinks = document.querySelectorAll("a");
 const allSections = document.querySelectorAll("section");
-
-const getId = (section) => {
-    let text = section.querySelector("h2").textContent;
-    let finalID = text.replace(" ", "_");
-    return finalID;
-} 
-
-
 /**
  * End Global Variables
  * Start Helper Functions
  * 
 */
-
-
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
-const allSections = document.querySelectorAll("section");
-
+//Function to get the ID for a section
+const getId = (section) => {
+    let text = section.querySelector("h2").textContent;
+    let finalID = text.replace(" ", "_");
+    return finalID;
+}
+//Function to get the ID of a section
+const transID = (txt) => {
+    let tid = txt.replace(" ", "_");
+    let string = `#${tid}`;
+    return string;
+}
+//Function to add HTML link code for seach section
 const addSectionItem = (section) => {
     let text = section.querySelector("h2").textContent
     let iD = getId(section);
-    console.log(iD);
     navBarList.insertAdjacentHTML("beforeend", `<li ><a id="${iD}" href=${section.id}><h3>${text}</h3></a></li>`)
 }
-allSections.forEach(addSectionItem)
-
-
-
-
-// Add class 'active' to section when near top of viewport
-
+//Function to Add/Remove classes and turn the nav bar link green if a section is in view
 const inView = (section) => {
     window.addEventListener("scroll", function(){
         let bounding = section.getBoundingClientRect();
-        if (bounding.bottom >= 700 && bounding.bottom <= 1050) {
+        if (bounding.bottom >=500 && bounding.bottom <= 1200) {
             section.classList.add("your-active-class");
             let nID = `#${getId(section)}`;
             let editingID = document.querySelector(nID);
@@ -80,15 +61,32 @@ const inView = (section) => {
         }
     })};
 
-allSections.forEach(inView)
+/**
+ * End Helper Functions
+ * Begin Main Functions
+ * 
+*/
 
-const scrollFunc = (link) => {
-    link.addEventListener("click", function(){
-        link.preventDefault();
-        document.getElementById(link.getAttribute("href").scrollIntoView())})}
+// build the nav
 
-// Scroll to anchor ID using scrollTO event
-getLinks.forEach(scrollFunc)
+allSections.forEach(addSectionItem)
+
+// Add class 'active' to section when near top of viewport
+
+allSections.forEach(inView);
+
+// Scroll to anchor ID using scrollTO event
+
+
+for (sect of allSections) {
+    let txt = sect.querySelector("h2").textContent;
+    let idForLink = transID(txt);
+    let idForNav = transID(sect.id);
+    let linkNav = document.querySelector(idForLink);
+    let sectionNav = document.querySelector(idForNav);
+    linkNav.addEventListener('click', function (event) {
+        event.preventDefault();
+        sectionNav.scrollIntoView(true);})}
 
 /**
  * End Main Functions
